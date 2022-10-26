@@ -53,7 +53,7 @@ module.exports.get = (req, res) => {
     }
 }
 
-module.exports.getAtDate = (req, res) => {
+module.exports.getAtDate = (_, res) => {
     Meditation.find().then(
         (meditation) => {
             res.status(200).json({
@@ -66,7 +66,7 @@ module.exports.getAtDate = (req, res) => {
         (error) => {
             res.status(404).json({
                 error: true,
-                message: "",
+                message: error,
                 data: []
             });
         }
@@ -76,10 +76,11 @@ module.exports.getAtDate = (req, res) => {
 
 module.exports.post = (req, res, _) => {
     const meditation = new Meditation({
-        id: req.body.emp_firstname,
-        ref: req.body.emp_lastname,
-        date: req.body.emp_sex,
-        content: req.body.emp_phone,
+        ref: req.body.ref,
+        date: req.body.date,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        content: req.body.content,
     });
     meditation.save().then(() => {
         res.status(201).json({
@@ -114,6 +115,9 @@ module.exports.put = (req, res) => {
     const meditation = new Meditation({
         _id: req.params.id,
         ref: req.body.ref,
+        date: req.body.date,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
         content: req.body.content,
     });
     Meditation.updateOne({ _id: req.params.id }, meditation).then(
