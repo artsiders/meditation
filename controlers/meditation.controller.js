@@ -4,10 +4,7 @@ const dayjs = require('dayjs')
 
 module.exports.get = (req, res) => {
     let startDate = req.query.startDate
-    let date = req.query.date
     let endDate = req.query.endDate
-
-    console.log(startDate, "date", date, "end", endDate);
 
     const checkDate = (date) => dayjs(date, "DD-MM-YYYY", false).isValid()
 
@@ -31,7 +28,6 @@ module.exports.get = (req, res) => {
     } else {
         Meditation.find({
             startDate: dayjs(startDate).format('DD/MM/YYYY'),
-            date: dayjs(date).format('DD/MM/YYYY'),
             endDate: dayjs(endDate).format('DD/MM/YYYY'),
         }).then(
             (meditation) => {

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const meditationRoutes = require('./routes/meditations.route')
 const meditationRoute = require('./routes/meditation.route')
 const usersRoute = require('./routes/user.route')
 const subscriptionRoute = require('./routes/subscription.route')
@@ -12,7 +13,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 
+app.use('/meditations', meditationRoutes);
 app.use('/meditation', meditationRoute);
+
 app.use('/users', usersRoute);
 app.use('/subscription', subscriptionRoute);
 

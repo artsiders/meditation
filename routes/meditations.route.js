@@ -3,10 +3,8 @@ const router = express.Router();
 const meditationControler = require('../controlers/meditation.controller');
 
 
-router.get('/:date', meditationControler.getAtDate);
+router.post('/', meditationControler.post);
 
-router.put('/:id', meditationControler.put);
-
-router.delete('/:id', meditationControler.delete);
+router.get('', meditationControler.get);
 
 module.exports = router;
