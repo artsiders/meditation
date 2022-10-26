@@ -1,0 +1,10 @@
+const mongoose = require('mongoose');
+
+const meditationSchema = mongoose.Schema({
+    ref: { type: String, required: true },
+    content: { type: String, required: true },
+    startDate: { type: String, required: true },
+    date: { type: String, required: true },
+    endDate: { type: String, required: true },
+});
+module.exports = mongoose.model('Meditation', meditationSchema);
