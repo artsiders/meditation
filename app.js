@@ -16,9 +16,8 @@ app.use('/meditation', meditationRoute);
 app.use('/users', usersRoute);
 app.use('/subscription', subscriptionRoute);
 
-//mongoose.connect('mongodb+srv://meditation:ditationme@meditation1.aw8ribq.mongodb.net/?retryWrites=true&w=majority',
-
-mongoose.connect('mongodb://localhost:27017/meditation',
+//mongoose.connect('mongodb://localhost:27017/meditation',
+mongoose.connect('mongodb+srv://meditation:8vbSf62dopgfgNqL@meditation1.aw8ribq.mongodb.net/?retryWrites=true&w=majority',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
