@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const meditationRoute = require('./routes/meditation.route')
 const usersRoute = require('./routes/user.route')
+const subscriptionRoute = require('./routes/subscription.route')
 
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(cors());
 
 app.use('/meditation', meditationRoute);
 app.use('/users', usersRoute);
+app.use('/subscription', subscriptionRoute);
 
 //mongoose.connect('mongodb+srv://meditation:ditationme@meditation1.aw8ribq.mongodb.net/?retryWrites=true&w=majority',
 
