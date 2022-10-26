@@ -4,7 +4,6 @@
   "description": "",
   "main": "serve.js",
   "scripts": {
-    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
     "start": "node server.js"
   },
   "repository": {
