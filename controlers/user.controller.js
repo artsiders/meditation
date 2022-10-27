@@ -23,15 +23,15 @@ module.exports.get = (_, res) => {
 }
 
 module.exports.getOne = (req, res) => {
-    User.findOne().then(
+    User.findOne({ _id: req.params.id }).then(
         (users) => {
             Subscription.findOne({ userId: users._id.toString() }).then(
                 (subscription) => {
+                    subscription === null ? subscription = {} : subscription;
                     const datas = {
-                        error: true,
-                        message: "cool",
+                        error: false,
+                        message: "",
                         data: { ...users._doc, subscription: subscription },
-                        test: "test"
                     }
                     res.status(400).json(datas);
                 }).catch((error) => console.log(error));
@@ -42,24 +42,6 @@ module.exports.getOne = (req, res) => {
                 data: [],
             });
             console.log(error);
-        });
-}
-module.exports.getOneTTT = (req, res) => {
-    User.findOne({ _id: req.params.id }).then(
-        (users) => {
-
-            res.status(400).json({
-                error: true,
-                message: "utilisateur non trouver",
-                data: [],
-            });
-            console.log(getSubcription(userDatas._id.toString()));
-        }).catch((error) => {
-            res.status(400).json({
-                error: true,
-                message: "utilisateur non trouver",
-                data: [],
-            });
         });
 }
 
