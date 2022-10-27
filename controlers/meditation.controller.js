@@ -103,12 +103,16 @@ module.exports.post = (req, res, _) => {
     });
     meditation.save().then(() => {
         res.status(201).json({
-            message: 'successfully'
+            error: false,
+            message: "méditation ajouter avec succès",
+            data: [],
         });
     }
     ).catch((error) => {
         res.status(400).json({
-            error: "ERREUR" + error
+            error: true,
+            message: "impossible d'ajouter la méditation",
+            data: [],
         });
     }
     );
@@ -118,13 +122,17 @@ module.exports.delete = (req, res) => {
     Meditation.deleteOne({ _id: req.params.id }).then(
         () => {
             res.status(200).json({
-                message: 'Deleted!'
+                error: false,
+                message: "méditation supprimer !",
+                data: [],
             });
         }
     ).catch(
         (error) => {
             res.status(400).json({
-                error: error
+                error: true,
+                message: "impossible de supprimer la méditation",
+                data: [],
             });
         }
     );
@@ -135,20 +143,22 @@ module.exports.put = (req, res) => {
         _id: req.params.id,
         ref: req.body.ref,
         date: req.body.date,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate,
         content: req.body.content,
     });
     Meditation.updateOne({ _id: req.params.id }, meditation).then(
         () => {
             res.status(201).json({
-                message: 'updated successfully!'
+                error: false,
+                message: "méditation modifier avec succès",
+                data: [],
             });
         }
     ).catch(
         (error) => {
             res.status(400).json({
-                error: error
+                error: true,
+                message: "impossible de modifier la méditation",
+                data: [],
             });
         }
     );
