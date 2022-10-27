@@ -4,8 +4,11 @@ const { replaceAll } = require('../helpers/function');
 
 
 module.exports.get = (req, res) => {
-    let startDate = req.query.startDate
-    let endDate = req.query.endDate
+    let startDate = replaceAll('"', '', req.query.startDate)
+    let endDate = replaceAll('"', '', req.query.endDate)
+    startDate = replaceAll("'", '', startDate)
+    endDate = replaceAll("'", '', endDate)
+
 
     const checkDate = (date) => dayjs(date, "DD-MM-YYYY", false).isValid()
 
@@ -66,9 +69,8 @@ module.exports.getById = (req, res) => {
     );
 }
 module.exports.getAtDate = (req, res) => {
-    const date = replaceAll('"', '', req.query.date);
-
-    console.log(date, "type : ", typeof date);
+    let date = replaceAll('"', '', req.query.date);
+    date = replaceAll("'", '', date);
 
     Meditation.findOne({ date: date }).then(
         (meditation) => {
