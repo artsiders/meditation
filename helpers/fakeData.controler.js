@@ -9,10 +9,7 @@ module.exports.fakeMeditaton = (_, res) => {
             let fake = new Meditation({
                 ref: faker.name.firstName(),
                 content: faker.lorem.paragraph(),
-                startDate: format(faker.date.between('2022-01-01', '2023-01-01')),
                 date: format(faker.date.between('2022-01-01', '2023-01-01')),
-                endDate: format(faker.date.between('2022-01-01', '2023-01-01')),
-
             })
             fake.save()
         }
