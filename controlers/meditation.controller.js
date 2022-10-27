@@ -26,10 +26,7 @@ module.exports.get = (req, res) => {
         });
         return
     } else {
-        Meditation.find({
-            startDate: dayjs(startDate).format('DD/MM/YYYY'),
-            endDate: dayjs(endDate).format('DD/MM/YYYY'),
-        }).then(
+        Meditation.find({ $gte: startDate, $lt: endDate }).then(
             (meditation) => {
                 res.status(200).json({
                     error: false,
