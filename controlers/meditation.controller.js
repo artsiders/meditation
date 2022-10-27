@@ -8,8 +8,7 @@ module.exports.get = (req, res) => {
 
     const checkDate = (date) => dayjs(date, "DD-MM-YYYY", false).isValid()
 
-
-    if (!checkDate(startDate) || !checkDate(date) || !checkDate(endDate)) {
+    if (!checkDate(startDate) || !checkDate(endDate)) {
         res.status(400).json({
             error: true,
             message: "les dates ne sont pas valide !",
@@ -25,25 +24,25 @@ module.exports.get = (req, res) => {
             data: []
         });
         return
-    } else {
-        Meditation.find({ $gte: startDate, $lt: endDate }).then(
-            (meditation) => {
-                res.status(200).json({
-                    error: false,
-                    message: "",
-                    data: meditation
-                });
-            }
-        ).catch(
-            (error) => {
-                res.status(404).json({
-                    error: true,
-                    message: error,
-                    data: []
-                });
-            }
-        );
     }
+
+    Meditation.find({ date: { $gte: startDate, $lte: endDate } }).then(
+        (meditation) => {
+            res.status(200).json({
+                error: false,
+                message: "",
+                data: meditation,
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: true,
+                message: error,
+                data: []
+            });
+        }
+    );
 }
 
 module.exports.getAtDate = (_, res) => {

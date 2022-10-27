@@ -1,15 +1,17 @@
 const Meditation = require("../models/meditation.model");
 const { faker } = require("@faker-js/faker");
+const dayjs = require("dayjs");
 
 module.exports.fakeMeditaton = (_, res) => {
+    const format = (date) => dayjs(date).format("MM-DD-YYYY")
     try {
         for (let i = 0; i < 10; i++) {
             let fake = new Meditation({
                 ref: faker.name.firstName(),
                 content: faker.lorem.paragraph(),
-                startDate: faker.date.between('2022-01-01T00:00:00.000Z', '2023-01-01T00:00:00.000Z'),
-                date: faker.date.between('2022-01-01T00:00:00.000Z', '2023-01-01T00:00:00.000Z'),
-                endDate: faker.date.between('2022-01-01T00:00:00.000Z', '2023-01-01T00:00:00.000Z'),
+                startDate: format(faker.date.between('2022-01-01', '2023-01-01')),
+                date: format(faker.date.between('2022-01-01', '2023-01-01')),
+                endDate: format(faker.date.between('2022-01-01', '2023-01-01')),
 
             })
             fake.save()
@@ -21,6 +23,7 @@ module.exports.fakeMeditaton = (_, res) => {
             data: []
         })
         console.log(error);
+        return;
     }
     res.status(200).json({
         error: false,
