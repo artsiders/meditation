@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const Subscription = require('../models/subscription.model');
 
 
 module.exports.get = (_, res) => {
@@ -22,23 +23,44 @@ module.exports.get = (_, res) => {
 }
 
 module.exports.getOne = (req, res) => {
-    User.find({ _id: req.params.id }).then(
+    User.findOne().then(
         (users) => {
-            res.status(200).json({
-                error: false,
-                message: "",
-                data: users
-            });
-        }
-    ).catch(
-        (error) => {
+            Subscription.findOne({ userId: users._id.toString() }).then(
+                (subscription) => {
+                    const datas = {
+                        error: true,
+                        message: "cool",
+                        data: { ...users._doc, subscription: subscription },
+                        test: "test"
+                    }
+                    res.status(400).json(datas);
+                }).catch((error) => console.log(error));
+        }).catch((error) => {
             res.status(400).json({
                 error: true,
                 message: "utilisateur non trouver",
-                data: []
+                data: [],
             });
-        }
-    );
+            console.log(error);
+        });
+}
+module.exports.getOneTTT = (req, res) => {
+    User.findOne({ _id: req.params.id }).then(
+        (users) => {
+
+            res.status(400).json({
+                error: true,
+                message: "utilisateur non trouver",
+                data: [],
+            });
+            console.log(getSubcription(userDatas._id.toString()));
+        }).catch((error) => {
+            res.status(400).json({
+                error: true,
+                message: "utilisateur non trouver",
+                data: [],
+            });
+        });
 }
 
 
