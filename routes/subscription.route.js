@@ -9,8 +9,6 @@ router.get('/', usersControler.get);
 
 router.get('/:id', usersControler.getOne);
 
-router.put('/:id', usersControler.put);
-
 router.delete('/:id', usersControler.delete);
 
 module.exports = router;

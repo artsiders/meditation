@@ -9,7 +9,7 @@ router.get('/', usersControler.get);
 
 router.get('/:id', usersControler.getOne);
 
-router.put('/:id', usersControler.put);
+router.patch('/:id', usersControler.patch);
 
 router.delete('/:id', usersControler.delete);
 

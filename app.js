@@ -18,7 +18,7 @@ app.use('/meditations', meditationRoutes);
 app.use('/meditation', meditationRoute);
 
 app.use('/users', usersRoute);
-app.use('/subscription', subscriptionRoute);
+app.use('/subscribe', subscriptionRoute);
 
 app.use('/fake', fakeData)
 

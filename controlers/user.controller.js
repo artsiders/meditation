@@ -12,9 +12,9 @@ module.exports.get = (_, res) => {
         }
     ).catch(
         (error) => {
-            res.status(404).json({
+            res.status(400).json({
                 error: true,
-                message: error,
+                message: "impossible de d'obtenie les donnée pour le moment",
                 data: []
             });
         }
@@ -32,9 +32,9 @@ module.exports.getOne = (req, res) => {
         }
     ).catch(
         (error) => {
-            res.status(404).json({
+            res.status(400).json({
                 error: true,
-                message: error,
+                message: "utilisateur non trouver",
                 data: []
             });
         }
@@ -50,12 +50,16 @@ module.exports.post = (req, res, _) => {
     });
     users.save().then(() => {
         res.status(201).json({
-            message: 'successfully'
+            error: false,
+            message: "utilisateur ajouter avec succès",
+            data: [],
         });
     }
     ).catch((error) => {
         res.status(400).json({
-            error: "ERREUR" + error
+            error: true,
+            message: "impossible d'ajouter l'utilisateur",
+            data: [],
         });
     }
     );
@@ -65,19 +69,23 @@ module.exports.delete = (req, res) => {
     User.deleteOne({ _id: req.params.id }).then(
         () => {
             res.status(200).json({
-                message: 'Deleted!'
+                error: false,
+                message: "utilisateur supprimer avec succès",
+                data: [],
             });
         }
     ).catch(
         (error) => {
             res.status(400).json({
-                error: error
+                error: true,
+                message: "impossible de modifier l'utilisateur",
+                data: [],
             });
         }
     );
 }
 
-module.exports.put = (req, res) => {
+module.exports.patch = (req, res) => {
     const users = new User({
         _id: req.params.id,
         fullName: req.body.fullName,
@@ -87,12 +95,17 @@ module.exports.put = (req, res) => {
     User.updateOne({ _id: req.params.id }, users).then(
         () => {
             res.status(201).json({
-                message: 'updated successfully!'
+                error: false,
+                message: "utilisateur modifier avec succès",
+                data: [],
             });
         }
     ).catch(
         (error) => {
             res.status(400).json({
+                error: true,
+                message: "impossible de modifier l'utilisateur",
+                data: [],
                 error: error
             });
         }
