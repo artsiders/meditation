@@ -3,7 +3,9 @@ const router = express.Router();
 const meditationControler = require('../controlers/meditation.controller');
 
 
-router.get('/:date', meditationControler.getAtDate);
+router.get('/:id', meditationControler.getById);
+
+router.get('/', meditationControler.getAtDate); //get element by date ?date='08-06-2022'
 
 router.put('/:id', meditationControler.put);
 
