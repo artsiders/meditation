@@ -38,7 +38,7 @@ module.exports.get = (req, res, next) => {
         .then(
             (meditation) => {
                 if (meditation.length == 0) {
-                    res.status(404).json({
+                    res.status(204).json({
                         error: false,
                         message: "Aucune méditation pour cette interval de date!",
                         data: {},
@@ -55,7 +55,7 @@ module.exports.get = (req, res, next) => {
         ).catch(
             (error) => {
                 console.log(error);
-                res.status(404).json({
+                res.status(204).json({
                     error: true,
                     message: "",
                     data: {}
@@ -72,7 +72,7 @@ module.exports.getAtDate = (req, res) => {
     Meditation.findOne({ date: date }).then(
         (meditation) => {
             if (meditation.length == 0) {
-                res.status(404).json({
+                res.status(204).json({
                     error: false,
                     message: "Aucune méditation pour cette date!",
                     data: {},
@@ -87,7 +87,7 @@ module.exports.getAtDate = (req, res) => {
         }
     ).catch(
         (error) => {
-            res.status(404).json({
+            res.status(204).json({
                 error: true,
                 message: "pas de meditation disponible pour cette date",
                 data: {}
@@ -100,7 +100,7 @@ module.exports.getById = (req, res) => {
     Meditation.find({ _id: req.params.id }).then(
         (meditation) => {
             if (meditation.length == 0) {
-                res.status(404).json({
+                res.status(204).json({
                     error: false,
                     message: "Méditation introuvable!",
                     data: {},
@@ -120,7 +120,7 @@ module.exports.getById = (req, res) => {
         }
     ).catch(
         (error) => {
-            res.status(404).json({
+            res.status(204).json({
                 error: true,
                 message: "impossible de trouver cette meditation",
                 data: {}

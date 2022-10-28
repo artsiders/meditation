@@ -13,7 +13,7 @@ module.exports.get = (_, res) => {
         }
     ).catch(
         (error) => {
-            res.status(404).json({
+            res.status(204).json({
                 error: true,
                 message: error,
                 data: {}
@@ -33,7 +33,7 @@ module.exports.getOne = (req, res) => {
         }
     ).catch(
         (error) => {
-            res.status(404).json({
+            res.status(204).json({
                 error: true,
                 message: error,
                 data: {}
