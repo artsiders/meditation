@@ -14,14 +14,13 @@ module.exports.get = (req, res, next) => {
     startDate = replaceAll("'", '', startDate)
     endDate = replaceAll("'", '', endDate)
 
-
-    const checkDate = (date) => dayjs(date, "DD-MM-YYYY", false).isValid()
+    const checkDate = (date) => dayjs(date, "YYYY-MM-DD", false).isValid()
 
     if (!checkDate(startDate) || !checkDate(endDate)) {
         res.status(400).json({
             error: true,
             message: "les dates ne sont pas valide !",
-            data: []
+            data: {}
         });
         return
     }
@@ -30,28 +29,39 @@ module.exports.get = (req, res, next) => {
         res.status(400).json({
             error: true,
             message: "la date de début ne peut être plus avancé que celle de fin",
-            data: []
+            data: {}
         });
         return
     }
+    Meditation.find({ date: { $gte: startDate, $lte: endDate } })
+        .sort({ date: 1 })
+        .then(
+            (meditation) => {
+                if (meditation.length == 0) {
+                    res.status(404).json({
+                        error: false,
+                        message: "Aucune méditation pour cette interval de date!",
+                        data: {},
+                    });
+                } else {
+                    res.status(200).json({
+                        error: false,
+                        message: "",
+                        data: meditation,
+                    });
+                }
 
-    Meditation.find({ date: { $gte: startDate, $lte: endDate } }).then(
-        (meditation) => {
-            res.status(200).json({
-                error: false,
-                message: "",
-                data: meditation,
-            });
-        }
-    ).catch(
-        (error) => {
-            res.status(404).json({
-                error: true,
-                message: error,
-                data: []
-            });
-        }
-    );
+            }
+        ).catch(
+            (error) => {
+                console.log(error);
+                res.status(404).json({
+                    error: true,
+                    message: "",
+                    data: {}
+                });
+            }
+        );
 }
 
 
@@ -61,19 +71,26 @@ module.exports.getAtDate = (req, res) => {
 
     Meditation.findOne({ date: date }).then(
         (meditation) => {
-            meditation === null ? meditation = "" : null
-            res.status(200).json({
-                error: false,
-                message: "",
-                data: meditation,
-            });
+            if (meditation.length == 0) {
+                res.status(404).json({
+                    error: false,
+                    message: "Aucune méditation pour cette date!",
+                    data: {},
+                });
+            } else {
+                res.status(200).json({
+                    error: false,
+                    message: "",
+                    data: meditation,
+                });
+            }
         }
     ).catch(
         (error) => {
             res.status(404).json({
                 error: true,
                 message: "pas de meditation disponible pour cette date",
-                data: []
+                data: {}
             });
         }
     );
@@ -82,6 +99,19 @@ module.exports.getAtDate = (req, res) => {
 module.exports.getById = (req, res) => {
     Meditation.find({ _id: req.params.id }).then(
         (meditation) => {
+            if (meditation.length == 0) {
+                res.status(404).json({
+                    error: false,
+                    message: "Méditation introuvable!",
+                    data: {},
+                });
+            } else {
+                res.status(200).json({
+                    error: false,
+                    message: "",
+                    data: meditation,
+                });
+            }
             res.status(200).json({
                 error: false,
                 message: "",
@@ -93,7 +123,7 @@ module.exports.getById = (req, res) => {
             res.status(404).json({
                 error: true,
                 message: "impossible de trouver cette meditation",
-                data: []
+                data: {}
             });
         }
     );
@@ -112,14 +142,14 @@ module.exports.post = (req, res, _) => {
         res.status(201).json({
             error: false,
             message: "méditation ajouter avec succès",
-            data: [],
+            data: {},
         });
     }
     ).catch((error) => {
         res.status(400).json({
             error: true,
             message: "impossible d'ajouter la méditation",
-            data: [],
+            data: {},
         });
     }
     );
@@ -131,7 +161,7 @@ module.exports.delete = (req, res) => {
             res.status(200).json({
                 error: false,
                 message: "méditation supprimer !",
-                data: [],
+                data: {},
             });
         }
     ).catch(
@@ -139,7 +169,7 @@ module.exports.delete = (req, res) => {
             res.status(400).json({
                 error: true,
                 message: "impossible de supprimer la méditation",
-                data: [],
+                data: {},
             });
         }
     );
@@ -157,7 +187,7 @@ module.exports.put = (req, res) => {
             res.status(201).json({
                 error: false,
                 message: "méditation modifier avec succès",
-                data: [],
+                data: {},
             });
         }
     ).catch(
@@ -165,7 +195,7 @@ module.exports.put = (req, res) => {
             res.status(400).json({
                 error: true,
                 message: "impossible de modifier la méditation",
-                data: [],
+                data: {},
             });
         }
     );

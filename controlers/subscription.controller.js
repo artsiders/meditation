@@ -16,7 +16,7 @@ module.exports.get = (_, res) => {
             res.status(404).json({
                 error: true,
                 message: error,
-                data: []
+                data: {}
             });
         }
     );
@@ -36,7 +36,7 @@ module.exports.getOne = (req, res) => {
             res.status(404).json({
                 error: true,
                 message: error,
-                data: []
+                data: {}
             });
         }
     );
@@ -46,13 +46,13 @@ module.exports.getOne = (req, res) => {
 module.exports.post = (req, res, _) => {
     let startDate = req.body.startDate
     let endDate = req.body.endDate
-    const checkDate = (date) => dayjs(date, "DD-MM-YYYY", false).isValid()
+    const checkDate = (date) => dayjs(date, "YYYY-MM-DD", false).isValid()
 
     if (!checkDate(startDate) || !checkDate(endDate)) {
         res.status(400).json({
             error: true,
             message: "les dates ne sont pas valides !",
-            data: []
+            data: {}
         });
         return
     }
@@ -61,7 +61,7 @@ module.exports.post = (req, res, _) => {
         res.status(400).json({
             error: true,
             message: "la date de début ne peut être plus avancé que celle de fin",
-            data: []
+            data: {}
         });
         return
     }
@@ -75,14 +75,14 @@ module.exports.post = (req, res, _) => {
         res.status(201).json({
             error: false,
             message: "Souscription réussie !",
-            data: []
+            data: {}
         });
     }
     ).catch((error) => {
         res.status(400).json({
             error: true,
             message: "La souscription a échoué !",
-            data: []
+            data: {}
         });
     }
     );
@@ -94,7 +94,7 @@ module.exports.delete = (req, res) => {
             res.status(200).json({
                 error: false,
                 message: "Souscription annulée avec succès",
-                data: []
+                data: {}
             });
         }
     ).catch(
@@ -102,7 +102,7 @@ module.exports.delete = (req, res) => {
             res.status(400).json({
                 error: true,
                 message: "Impossible d'annuler la souscription",
-                data: []
+                data: {}
             });
         }
     );

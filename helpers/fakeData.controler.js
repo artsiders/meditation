@@ -5,7 +5,7 @@ const dayjs = require("dayjs");
 const Subscription = require("../models/subscription.model");
 
 module.exports.fakeMeditaton = (_, res) => {
-    const format = (date) => dayjs(date).format("MM-DD-YYYY")
+    const format = (date) => dayjs(date).format("YYYY-MM-DD")
     try {
         for (let i = 0; i < 10; i++) {
             let meditation = new Meditation({
@@ -55,7 +55,7 @@ module.exports.fakeUser = (_, res) => {
 }
 
 module.exports.fakeSubscription = (_, res) => {
-    const format = (date) => dayjs(date).format("MM-DD-YYYY")
+    const format = (date) => dayjs(date).format("YYYY-MM-DD")
     try {
         for (let i = 0; i < 10; i++) {
             let meditation = new Subscription({
