@@ -3,7 +3,12 @@ const dayjs = require('dayjs');
 const { replaceAll } = require('../helpers/function');
 
 
-module.exports.get = (req, res) => {
+module.exports.get = (req, res, next) => {
+    if (req.query.startDate === undefined) {
+        next()
+        return
+    }
+
     let startDate = replaceAll('"', '', req.query.startDate)
     let endDate = replaceAll('"', '', req.query.endDate)
     startDate = replaceAll("'", '', startDate)
@@ -49,25 +54,7 @@ module.exports.get = (req, res) => {
     );
 }
 
-module.exports.getById = (req, res) => {
-    Meditation.find({ _id: req.params.id }).then(
-        (meditation) => {
-            res.status(200).json({
-                error: false,
-                message: "",
-                data: meditation
-            });
-        }
-    ).catch(
-        (error) => {
-            res.status(404).json({
-                error: true,
-                message: "impossible de trouver cette meditation",
-                data: []
-            });
-        }
-    );
-}
+
 module.exports.getAtDate = (req, res) => {
     let date = replaceAll('"', '', req.query.date);
     date = replaceAll("'", '', date);
@@ -86,6 +73,26 @@ module.exports.getAtDate = (req, res) => {
             res.status(404).json({
                 error: true,
                 message: "pas de meditation disponible pour cette date",
+                data: []
+            });
+        }
+    );
+}
+
+module.exports.getById = (req, res) => {
+    Meditation.find({ _id: req.params.id }).then(
+        (meditation) => {
+            res.status(200).json({
+                error: false,
+                message: "",
+                data: meditation
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: true,
+                message: "impossible de trouver cette meditation",
                 data: []
             });
         }
