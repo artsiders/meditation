@@ -5,6 +5,7 @@ const meditationRoute = require('./routes/meditation.route')
 const usersRoute = require('./routes/user.route')
 const subscriptionRoute = require('./routes/subscription.route');
 const fakeData = require('./helpers/fakeData.route')
+const postXlsx = require("./routes/xlsx.route")
 
 
 const app = express();
@@ -20,8 +21,10 @@ app.use('/subscribe', subscriptionRoute);
 
 app.use('/fake', fakeData)
 
-//mongoose.connect('mongodb://localhost:27017/meditation',
-mongoose.connect('mongodb+srv://meditation:8vbSf62dopgfgNqL@meditation1.aw8ribq.mongodb.net/?retryWrites=true&w=majority',
+app.use("/evangiles", postXlsx)
+
+// mongoose.connect('mongodb+srv://meditation:8vbSf62dopgfgNqL@meditation1.aw8ribq.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect('mongodb://localhost:27017/meditation',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
