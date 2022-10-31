@@ -1,6 +1,7 @@
 const dayjs = require('dayjs');
 const XLSX = require("xlsx")
 const Evangile = require("../models/envangile.model")
+const axios = require('axios')
 
 module.exports.post = (req, res) => {
     var workbook = XLSX.readFile('./uploads/' + req.file.filename);
@@ -35,6 +36,48 @@ module.exports.post = (req, res) => {
             message: "Fichier excel importer avec succès !",
             data: {},
         });
-    }).catch(error => console.log(error))
+    }).catch(error => {
+        res.status(500).json({
+            error: true,
+            message: "Impossible d'importer le fichier",
+            data: {},
+        });
+    })
 
+}
+
+
+module.exports.getByDate = (req, res) => {
+    Evangile.findOne({ Date: req.params.date }).then(
+        (evangile) => {
+
+            axios.get(`https://api.aelf.org/v1/informations/${req.params.date}/afrique`)
+                .then(axiosRes => {
+                    if (axiosRes.status == 200) {
+                        axiosRes.data === null ? axiosRes.data = {} : axiosRes.data;
+                        const datas = { ...evangile._doc, evangile: axiosRes.data.informations }
+
+                        res.status(200).json({
+                            error: false,
+                            message: "",
+                            data: datas
+                        });
+                    }
+                }).catch((error) => {
+                    res.status(404).json({
+                        error: true,
+                        message: "Aucun évangile pour cette date !",
+                        data: {}
+                    });
+                });
+        }
+    ).catch(
+        (error) => {
+            res.status(404).json({
+                error: true,
+                message: "Aucun évangile pour cette date !",
+                data: {}
+            });
+        }
+    );
 }

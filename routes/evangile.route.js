@@ -15,6 +15,7 @@ let storage = multer.diskStorage({
 let upload = multer({ storage });
 
 router.post('/', upload.single('file'), evangileControler.post);
+router.get('/:date', evangileControler.getByDate);
 
 
 
