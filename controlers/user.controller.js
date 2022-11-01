@@ -90,11 +90,16 @@ module.exports.delete = (req, res) => {
 
 module.exports.patch = (req, res) => {
     const users = new User({
+        _id: req.params['id'],
         fullName: req.body.fullName,
         profil: req.body.profil,
         phone: req.body.phone,
     });
-    User.findOneAndUpdate({ _id: req.params.id }, users, { new: true }).then(
+
+    console.log("here")
+    User.findOneAndUpdate({ _id: req.params['id'] }, users, {
+        new: true
+    }).then(
         (value) => {
             res.status(201).json({
                 error: false,
@@ -106,7 +111,7 @@ module.exports.patch = (req, res) => {
         (error) => {
             res.status(400).json({
                 error: true,
-                message: "impossible de modifier l'utilisateur",
+                message: "impossible de modifier",
                 errors: [error]
             });
         }
