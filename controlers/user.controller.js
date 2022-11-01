@@ -52,18 +52,18 @@ module.exports.post = (req, res, _) => {
         profil: req.body.profil,
         phone: req.body.phone,
     });
-    users.save().then(() => {
+    users.save().then((user) => {
         res.status(201).json({
             error: false,
             message: "utilisateur ajouter avec succès",
-            data: [],
+            data: user,
         });
     }
     ).catch((error) => {
         res.status(400).json({
             error: true,
             message: "impossible d'ajouter l'utilisateur",
-            data: [],
+            errors: [error],
         });
     }
     );
@@ -72,10 +72,9 @@ module.exports.post = (req, res, _) => {
 module.exports.delete = (req, res) => {
     User.deleteOne({ _id: req.params.id }).then(
         () => {
-            res.status(200).json({
+            res.status(204).json({
                 error: false,
                 message: "utilisateur supprimer avec succès",
-                data: [],
             });
         }
     ).catch(
@@ -83,7 +82,7 @@ module.exports.delete = (req, res) => {
             res.status(400).json({
                 error: true,
                 message: "impossible de modifier l'utilisateur",
-                data: [],
+                errors: [error]
             });
         }
     );
@@ -96,12 +95,12 @@ module.exports.patch = (req, res) => {
         profil: req.body.profil,
         phone: req.body.phone,
     });
-    User.updateOne({ _id: req.params.id }, users).then(
-        () => {
+    User.updateOne({ _id: req.params.id }, users, { new: true }).then(
+        (value) => {
             res.status(201).json({
                 error: false,
                 message: "utilisateur modifier avec succès",
-                data: [],
+                data: value,
             });
         }
     ).catch(
@@ -109,8 +108,7 @@ module.exports.patch = (req, res) => {
             res.status(400).json({
                 error: true,
                 message: "impossible de modifier l'utilisateur",
-                data: [],
-                error: error
+                errors: [error]
             });
         }
     );

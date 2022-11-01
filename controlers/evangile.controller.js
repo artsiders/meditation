@@ -51,11 +51,11 @@ module.exports.getByDate = (req, res) => {
     Evangile.findOne({ Date: req.params.date }).then(
         (evangile) => {
 
-            axios.get(`https://api.aelf.org/v1/informations/${req.params.date}/afrique`)
+            axios.get(`https://api.aelf.org/v1/messes/${req.params.date}/afrique`)
                 .then(axiosRes => {
                     if (axiosRes.status == 200) {
                         axiosRes.data === null ? axiosRes.data = {} : axiosRes.data;
-                        const datas = { ...evangile._doc, evangile: axiosRes.data.informations }
+                        const datas = { ...evangile._doc, evangile: axiosRes.data.messes.filter((elt) => elt.type === "evangile") }
 
                         res.status(200).json({
                             error: false,
