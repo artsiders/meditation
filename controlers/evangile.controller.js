@@ -55,7 +55,7 @@ module.exports.getByDate = (req, res) => {
                 .then(axiosRes => {
                     if (axiosRes.status == 200) {
                         axiosRes.data === null ? axiosRes.data = {} : axiosRes.data;
-                        const datas = { ...evangile._doc, evangile: axiosRes.data.messes.lectures.filter((elt) => elt.type == "evangile") }
+                        const datas = { ...evangile._doc, evangile: axiosRes.data.messes[0].lectures.find((elt) => elt.type == "evangile") }
 
                         res.status(200).json({
                             error: false,
