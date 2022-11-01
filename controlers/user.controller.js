@@ -90,12 +90,11 @@ module.exports.delete = (req, res) => {
 
 module.exports.patch = (req, res) => {
     const users = new User({
-        _id: req.params.id,
         fullName: req.body.fullName,
         profil: req.body.profil,
         phone: req.body.phone,
     });
-    User.updateOne({ _id: req.params.id }, users, { new: true }).then(
+    User.findOneAndUpdate({ _id: req.params.id }, users, { new: true }).then(
         (value) => {
             res.status(201).json({
                 error: false,
