@@ -114,7 +114,7 @@ module.exports.delete = (req, res) => {
 
 
 
-module.exports.post = (req, res, _) => {
+module.exports.patch = (req, res, _) => {
     let startDate = req.body.startDate
     let endDate = req.body.endDate
     const checkDate = (date) => dayjs(date, "YYYY-MM-DD", false).isValid()
