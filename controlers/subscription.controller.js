@@ -1,5 +1,6 @@
 const dayjs = require('dayjs');
 const Subscription = require('../models/subscription.model');
+const User = require('../models/user.model');
 
 
 module.exports.get = (_, res) => {
@@ -146,6 +147,23 @@ module.exports.post = (req, res, _) => {
         new: true
     }).then(
         (value) => {
+
+
+
+
+            User.findOne({ _id: value.userId.toString() }).then(
+                (user) => {
+                    user === null ? user = {} : user;
+                    const datas = {
+                        error: false,
+                        message: "",
+                        data: { ...user._doc, subscription: value },
+                    }
+                    res.status(200).json(datas);
+                }).catch((error) => console.log(error));
+
+
+
             res.status(200).json({
                 error: false,
                 message: "update sub",
