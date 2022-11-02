@@ -138,6 +138,8 @@ module.exports.patch = (req, res, _) => {
     }
 
     const subscriptions = new Subscription({
+
+        _id: req.params['id'],
         userId: req.body.userId,
         startDate: startDate,
         endDate: endDate,
@@ -147,9 +149,6 @@ module.exports.patch = (req, res, _) => {
         new: true
     }).then(
         (value) => {
-
-
-
 
             User.findOne({ _id: value.userId.toString() }).then(
                 (user) => {
