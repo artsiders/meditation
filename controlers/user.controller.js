@@ -57,11 +57,18 @@ module.exports.post = (req, res, _) => {
         console.log(err)
         if (count > 0) {
             User.findOne({ phone: req.body.phone }).then((user) => {
-                res.status(200).json({
-                    error: false,
-                    message: "utilisateur ajouter avec succès",
-                    data: user,
-                });
+
+                Subscription.findOne({ userId: user._id.toString() }).then(
+                    (subscription) => {
+                        subscription === null ? subscription = {} : subscription;
+                        const datas = {
+                            error: false,
+                            message: "",
+                            data: { ...user._doc, subscription: subscription },
+                        }
+                        res.status(200).json(datas);
+                    }).catch((error) => console.log(error));
+
             }
             )
         } else {
@@ -120,7 +127,7 @@ module.exports.patch = (req, res) => {
         new: true
     }).then(
         (value) => {
-            res.status(201).json({
+            res.status(200).json({
                 error: false,
                 message: "utilisateur modifier avec succès",
                 data: value,
