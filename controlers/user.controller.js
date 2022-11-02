@@ -52,21 +52,40 @@ module.exports.post = (req, res, _) => {
         profil: req.body.profil,
         phone: req.body.phone,
     });
-    users.save().then((user) => {
-        res.status(201).json({
-            error: false,
-            message: "utilisateur ajouter avec succès",
-            data: user,
-        });
-    }
-    ).catch((error) => {
-        res.status(400).json({
-            error: true,
-            message: "impossible d'ajouter l'utilisateur",
-            errors: [error],
-        });
-    }
-    );
+
+    User.countDocuments({ phone: req.body.phone }, function (err, count) {
+        console.log(err)
+        if (count > 0) {
+            User.findOne({ phone: req.body.phone }).then((user) => {
+                res.status(200).json({
+                    error: false,
+                    message: "utilisateur ajouter avec succès",
+                    data: user,
+                });
+            }
+            )
+        } else {
+            users.save().then((user) => {
+                res.status(201).json({
+                    error: false,
+                    message: "utilisateur ajouter avec succès",
+                    data: user,
+                });
+            }
+            ).catch((error) => {
+                res.status(400).json({
+                    error: true,
+                    message: "impossible d'ajouter l'utilisateur",
+                    errors: [error],
+                });
+            }
+            );
+        }
+    });
+
+
+
+
 }
 
 module.exports.delete = (req, res) => {
