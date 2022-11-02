@@ -163,11 +163,6 @@ module.exports.patch = (req, res, _) => {
 
 
 
-            res.status(200).json({
-                error: false,
-                message: "update sub",
-                data: value,
-            });
         }
     ).catch(
         (error) => {
