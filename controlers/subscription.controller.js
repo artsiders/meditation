@@ -71,11 +71,11 @@ module.exports.post = (req, res, _) => {
         startDate: startDate,
         endDate: endDate,
     });
-    subscriptions.save().then(() => {
+    subscriptions.save().then((value) => {
         res.status(201).json({
             error: false,
             message: "Souscription réussie !",
-            data: {}
+            data: value
         });
     }
     ).catch((error) => {
