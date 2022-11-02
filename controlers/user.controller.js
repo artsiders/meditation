@@ -33,7 +33,7 @@ module.exports.getOne = (req, res) => {
                         message: "",
                         data: { ...users._doc, subscription: subscription },
                     }
-                    res.status(400).json(datas);
+                    res.status(200).json(datas);
                 }).catch((error) => console.log(error));
         }).catch((error) => {
             res.status(400).json({
