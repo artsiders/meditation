@@ -53,7 +53,7 @@ module.exports.post = (req, res, _) => {
         phone: req.body.phone,
     });
 
-    User.countDocuments({ phone: phone }, function (err, count) {
+    User.countDocuments({ phone: req.body.phone }, function (err, count) {
         console.log(err)
         if (count > 0) {
             User.findOne({ phone: req.body.phone }).then((user) => {
