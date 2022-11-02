@@ -106,4 +106,59 @@ module.exports.delete = (req, res) => {
             });
         }
     );
+
+
+
+}
+
+
+
+module.exports.post = (req, res, _) => {
+    let startDate = req.body.startDate
+    let endDate = req.body.endDate
+    const checkDate = (date) => dayjs(date, "YYYY-MM-DD", false).isValid()
+
+    if (!checkDate(startDate) || !checkDate(endDate)) {
+        res.status(400).json({
+            error: true,
+            message: "les dates ne sont pas valides !",
+            data: {}
+        });
+        return
+    }
+
+    if (startDate > endDate) {
+        res.status(400).json({
+            error: true,
+            message: "la date de début ne peut être plus avancé que celle de fin",
+            data: {}
+        });
+        return
+    }
+
+    const subscriptions = new Subscription({
+        userId: req.body.userId,
+        startDate: startDate,
+        endDate: endDate,
+    });
+    console.log("here")
+    Subscription.findOneAndUpdate({ _id: req.params['id'] }, subscriptions, {
+        new: true
+    }).then(
+        (value) => {
+            res.status(200).json({
+                error: false,
+                message: "update sub",
+                data: value,
+            });
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: true,
+                message: "impossible de modifier",
+                errors: [error]
+            });
+        }
+    );
 }
